@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / compiled files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Environments
+venv/
+env/
+.env
+.idea/  # For PyCharm/IntelliJ IDEA
+.vscode/ # For VS Code
+*.sqlite3
+
+# Django-specific
+media/
+static_cdn/
+logs/
+*.log
+local_settings.py  # Or any other file containing sensitive local configurations
+db.sqlite3 # If using SQLite for development, otherwise ignore your database files
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Virtualenv
+pip-log.txt
+pip-delete-this-arg.txt
+
+# IDE-specific (adjust based on your IDE)
+*.iml
+.project
+.settings
+.classpath
+.c9/
