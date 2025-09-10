@@ -1,25 +1,16 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-
-
-class Ticker(models.Model):
-    symbol =  models.CharField(max_length=255, unique=True, db_index=True)
-    name = models.CharField(max_length=255)
-
-class Strategy(models.Model):
-    title =  models.CharField(max_length=255, unique=True, db_index=True)
-    description = models.CharField(max_length=255)
-
-class Tag(models.Model):
-    name = models.CharField(max_length=255, unique=True, db_index=True)
+from .tag_model import Tag
+from .strategy_model import Strategy
+from .ticker_model import Ticker
 
 class JournalEntry(models.Model):
     class TradeStatus(models.TextChoices):
         OPEN = "OPEN", "Open"
         CLOSED = "CLOSED", "Closed"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="journal" )
     ticker = models.ForeignKey(Ticker, on_delete=models.CASCADE)
     strategy = models.ForeignKey(Strategy, on_delete=models.SET_NULL, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
@@ -41,6 +32,9 @@ class JournalEntry(models.Model):
         if self.exit_price is not None:
             return round(((self.exit_price - self.entry_price)/self.entry_price)  * 100, 2)
         return None
+    
+    def __str__(self):
+        return f"{self.ticker.symbol} - {self.quantity} shares"
     
     class Meta: 
         indexes = [
