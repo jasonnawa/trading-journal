@@ -14,9 +14,23 @@ class ReadOnlyOrAdmin(permissions.BasePermission):
         return request.user and request.user.is_staff
 
 
+from rest_framework import permissions
+
 class IsOwnerOrAdmin(permissions.BasePermission):
-    """Only the owner or an admin can access/modify."""
+    """
+    - For User objects: only allow the user themselves or an admin.
+    - For other objects with `.user`: only allow the owner or an admin.
+    """
+
     def has_object_permission(self, request, view, obj):
+        # Read-only methods: allow safe access for everyone
         if request.method in permissions.SAFE_METHODS:
-            return obj.user == request.user or request.user.is_staff
-        return obj.user == request.user or request.user.is_staff
+            if isinstance(obj, request.user.__class__):  # If obj is a User
+                return obj == request.user or request.user.is_staff
+            return getattr(obj, "user", None) == request.user or request.user.is_staff
+
+        # Write/update methods
+        if isinstance(obj, request.user.__class__):  # User object
+            return obj == request.user or request.user.is_staff
+        return getattr(obj, "user", None) == request.user or request.user.is_staff
+
