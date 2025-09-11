@@ -1,2 +1,4 @@
 from .base_permissions import ReadOnlyOrAdmin, ReadOnly, IsOwnerOrAdmin
 from .journal_entry_permissions import CanEditOwnJournal
+from .tags_permissions import CanEditOrReadOwnOrGlobalTags
+from .strategy_permissions import CanEditOrReadOwnOrGlobalStrategy

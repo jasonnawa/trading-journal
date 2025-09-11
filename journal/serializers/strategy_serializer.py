@@ -4,4 +4,5 @@ from journal.models import Strategy
 class StrategySerializer(serializers.ModelSerializer):
     class Meta:
         model = Strategy
-        fields = ['id', 'name', 'description']
+        fields = ['id', 'owner', 'title', 'description']
+        read_only_fields = ['owner']
