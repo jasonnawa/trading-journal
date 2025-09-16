@@ -27,12 +27,19 @@ class JournalEntrySerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
+            # Read-only nested
             'ticker',
             'strategy',
             'tags',
+            # Write-only IDs
+            'strategy_id',
+            'ticker_id',
+            'tag_ids',
+            # others
             'quantity',
             'entry_price',
             'exit_price',
             'trade_date',
             'notes',
         ]
+        read_only_fields = ['user']
